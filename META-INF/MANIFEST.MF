@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: WolfAndHare
+Bundle-SymbolicName: WolfAndHare;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.swt;bundle-version="3.115.0"
+Automatic-Module-Name: WolfAndHare
+Bundle-RequiredExecutionEnvironment: JavaSE-14
+Bundle-ClassPath: .,
+ swing2swt.jar
