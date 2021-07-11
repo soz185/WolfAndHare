@@ -145,7 +145,7 @@ public class MainWindow {
 				countHare.setText(String.valueOf(Hare.getCountHare()));
 				if (Wolf.getCountWolf() == 0 || Hare.getCountHare() == 0 || Wolf.getCountWolf() > 500 || Hare.getCountHare() > 500) {
 					gc.dispose();
-					buttonStart.setEnabled(true);
+					buttonStep.setEnabled(true);
 					spinnerCountHare.setEnabled(true);
 					spinnerCountWolf.setEnabled(true);
 					spinnerVisionHare.setEnabled(true);

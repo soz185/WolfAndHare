@@ -73,6 +73,8 @@ public class Hare extends Item{
 				CountHare--;
 				return;
 			}
+		Random random = new Random();
+		double minDistance = canvas.getSize().x;
 		// обход списка всех видимых объектов
 		for (Map.Entry<Item, Double> item : TMap.getVisibleItems(this).entrySet()) {
 			// если объект за€ц
@@ -83,11 +85,42 @@ public class Hare extends Item{
 					Speed.x = -Speed.x;
 					Speed.y = -Speed.y;
 				}
-			//if (item instanceof Wolf)
-				
+			// если объект волк
+			if (item instanceof Wolf) {
+				if (minDistance > item.getValue()) {
+					if (this.Coordinates.x < item.getKey().Coordinates.x) {
+						if (Speed.x > 0)
+							Speed.x = -Speed.x;
+					}	
+					else
+						if (this.Coordinates.x > item.getKey().Coordinates.x) {
+							if (Speed.x < 0)
+								Speed.x = -Speed.x;
+						}
+						else
+							Speed.x = 0;				
+					// изменение координаты y
+					if (this.Coordinates.y < item.getKey().Coordinates.y) {
+						if (Speed.y > 0)
+							Speed.y = -Speed.y;
+					}
+					else
+						if (this.Coordinates.y > item.getKey().Coordinates.y) {
+							if (Speed.y < 0)
+								Speed.y = -Speed.y;
+						}
+						else
+							Speed.y = 0;
+				}
+				minDistance = item.getValue();
+			}				
 		}
 		Age++;
 		move(canvas);
+		if (Speed.x == 0)
+			Speed.x = random.nextInt(4) - 2;
+		if (Speed.y == 0)
+			Speed.y = random.nextInt(4) - 2;
 	}
 	
 	// обнуление количества зайцев
