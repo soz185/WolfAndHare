@@ -5,12 +5,12 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.graphics.*;
 
 public class Wolf extends Item{
-	//private String Image;
-	private int Hunger;
-	private static int Vision;
-	private int Age;
-	private Point Speed;
-	private static int CountWolf = 0;
+
+	private int Hunger;	// голод
+	private static int Vision;	// максимальное рассто€ние, на котором объект видит другие объекты
+	private int Age;	// возраст
+	private Point Speed;	// скорость
+	private static int CountWolf = 0;	// количество живых волков
 	
 	public Wolf() {
 		super();
@@ -30,6 +30,8 @@ public class Wolf extends Item{
 		Speed = new Point(src.getSpeed().x, src.getSpeed().y);
 	}
 	
+	// сравнение объектов
+	// true - равны, false - не равны
 	@Override
     public boolean equals(Object object)
     {
@@ -45,27 +47,18 @@ public class Wolf extends Item{
         return result;
     }
 	
-	/*public static void copy(Object dest, Object src) {
-		if (dest != null && dest instanceof Wolf && src != null && src instanceof Wolf) {
-			((Wolf)dest).Coordinates.x = ((Wolf)src).Coordinates.y;
-			((Wolf)dest).Coordinates.y = ((Wolf)src).Coordinates.y;
-			((Wolf)dest).Hunger = ((Wolf)src).getHunger();
-			((Wolf)dest).Age = ((Wolf)src).getAge();
-			((Wolf)dest).Speed.x = ((Wolf)src).Speed.x; 
-			((Wolf)dest).Speed.y = ((Wolf)src).Speed.y;
-		}
-	}*/
-	
+	// отрисовка волка
 	public void draw(Canvas canvas) { 
 		GC graphic = new GC(canvas);
 		if (Age > 70)
-			graphic.setBackground(new Color(canvas.getDisplay(), 210, 0, 0));
+			graphic.setBackground(new Color(canvas.getDisplay(), 210, 0, 0));	// взрослый волк - красный
 		else
-			graphic.setBackground(new Color(canvas.getDisplay(), 255, 138, 138));
+			graphic.setBackground(new Color(canvas.getDisplay(), 255, 138, 138));	// молодой волк - розовый
 		graphic.fillOval(Coordinates.x - 3, Coordinates.y - 3, 6, 6);
 		graphic.dispose();
 	}
 	
+	// передвижение волка
 	private void move(Canvas canvas) {
 		if (Coordinates.x + Speed.x < 3 || Coordinates.x + Speed.x > canvas.getSize().x - 3)
 			Speed.x = -Speed.x;
@@ -75,7 +68,9 @@ public class Wolf extends Item{
 		Coordinates.y += Speed.y;
 	}
 	
+	// действие волка
 	public void action(Canvas canvas) {
+		// удаление умершего от старости или голода волка
 		if (Hunger == 0 || Age > 700)
 			{
 				TMap.deleteItem(this);
@@ -84,17 +79,22 @@ public class Wolf extends Item{
 			}
 		Random random = new Random();
 		double minDistance = canvas.getSize().x;
+		// обход всех видимых волку объектов
 		for (Map.Entry<Item, Double> item : TMap.getVisibleItems(this).entrySet()) {
+			// если объект волк
 			if (item.getKey() instanceof Wolf) {
 				if (item.getValue() < 1.0 && item.getKey().getAge() > 100 && this.Age > 100) {
+					// рождение нового волка
 					TMap.newWolf(this.Coordinates.x, this.Coordinates.y);
 					Speed.x = -Speed.x;
 					Speed.y = -Speed.y;
 				}
 				break;
 			}
+			// если объект за€ц
 			if (item.getKey() instanceof Hare) {
-				if (item.getValue() < 1.5) {// && Hunger > 490) {
+				if (item.getValue() < 1.5 && Hunger > 490) {
+					// поедание зайца
 					TMap.deleteItem(item.getKey());
 					Hare.reduceCount();
 					Hunger += 30;
@@ -145,30 +145,37 @@ public class Wolf extends Item{
 			Speed.y = random.nextInt(4) - 2;
 	}
 	
+	// установить максимальное рассто€ние, на котором объект видит другие объекты
 	public static void setVision(int vision) {
 		Vision = vision;
 	}
 	
+	// обнулить количество объектов
 	public static void clearCount() {
 		CountWolf = 0;
 	}
 	
+	// получить максимальное рассто€ние, на котором объект видит другие объекты
 	public int getVision() {
 		return Vision;
 	}
 	
+	// получить возраст
 	public int getAge() {
 		return Age;
 	}
 	
+	// получить значение голода
 	public int getHunger() {
 		return Hunger;
 	}
 	
+	// получить скорость
 	public Point getSpeed() {
 		return Speed;
 	}
 	
+	// получить количество волков
 	public static int getCountWolf() {
 		return CountWolf;
 	}

@@ -120,30 +120,39 @@ public class MainWindow {
 		buttonStop.setBounds(759, 335, 75, 25);
 		buttonStop.setText("\u041E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u044C");
 		
-		TMap items = new TMap();
+		TMap items = new TMap(); // карта всех объектов
 		
+		// непрерывное выполнение
 		buttonStart.addSelectionListener(new SelectionAdapter() {
 		@Override
 		public void widgetSelected(SelectionEvent e) {
+			// отключение кнопок на время выполнения
 			buttonStep.setEnabled(false);
 			spinnerCountHare.setEnabled(false);
 			spinnerCountWolf.setEnabled(false);
 			spinnerVisionHare.setEnabled(false);
 			spinnerVisionWolf.setEnabled(false);
-			
+			// передача необходимых параметров в классы
 			Hare.setVision(Integer.valueOf(spinnerVisionHare.getText()));
 			Wolf.setVision(Integer.valueOf(spinnerVisionWolf.getText()));
+			// создание объектов карты
 			items.setMap(canvas, Integer.valueOf(spinnerCountHare.getText()), Integer.valueOf(spinnerCountWolf.getText()));
 			GC gc = new GC(canvas);
-			//for (int i = 0; i < 1000; i++)
 			while (true)
 			{
+				// вывод текущего количества объектов
 				countWolf.setText(String.valueOf(Wolf.getCountWolf()));
 				countHare.setText(String.valueOf(Hare.getCountHare()));
-				if (Wolf.getCountWolf() == 0 || Hare.getCountHare() == 0) {
+				if (Wolf.getCountWolf() == 0 || Hare.getCountHare() == 0 || Wolf.getCountWolf() > 500 || Hare.getCountHare() > 500) {
 					gc.dispose();
+					buttonStart.setEnabled(true);
+					spinnerCountHare.setEnabled(true);
+					spinnerCountWolf.setEnabled(true);
+					spinnerVisionHare.setEnabled(true);
+					spinnerVisionWolf.setEnabled(true);
 					return;
 				}
+				// отрисовка объектов
 				canvas.drawBackground(gc, 0, 0, canvas.getBounds().width, canvas.getBounds().height);
 				items.draw(canvas);
 				try {
@@ -155,6 +164,7 @@ public class MainWindow {
 		}
 	});
 		
+		// пошаговое выполнение
 		buttonStep.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -162,32 +172,37 @@ public class MainWindow {
 					items.setMap(canvas, Integer.valueOf(spinnerCountHare.getText()), Integer.valueOf(spinnerCountWolf.getText()));
 					isNewMap = false;
 				}
-					buttonStart.setEnabled(false);
-					spinnerCountHare.setEnabled(false);
-					spinnerCountWolf.setEnabled(false);
-					spinnerVisionHare.setEnabled(false);
-					spinnerVisionWolf.setEnabled(false);
-				
-					Hare.setVision(Integer.valueOf(spinnerVisionHare.getText()));
-					Wolf.setVision(Integer.valueOf(spinnerVisionWolf.getText()));
-					//TMap items = new TMap(canvas, Integer.valueOf(spinnerCountHare.getText()), Integer.valueOf(spinnerCountWolf.getText()));
-					GC gc = new GC(canvas);
-					countWolf.setText(String.valueOf(Wolf.getCountWolf()));
-					countHare.setText(String.valueOf(Hare.getCountHare()));
-					canvas.drawBackground(gc, 0, 0, canvas.getBounds().width, canvas.getBounds().height);
-					items.draw(canvas);
-					gc.dispose();
+				// отключение кнопок на время выполнения
+				buttonStart.setEnabled(false);
+				spinnerCountHare.setEnabled(false);
+				spinnerCountWolf.setEnabled(false);
+				spinnerVisionHare.setEnabled(false);
+				spinnerVisionWolf.setEnabled(false);
+				// передача необходимых параметров в классы
+				Hare.setVision(Integer.valueOf(spinnerVisionHare.getText()));
+				Wolf.setVision(Integer.valueOf(spinnerVisionWolf.getText()));
+				GC gc = new GC(canvas);
+				// вывод текущего количества объектов
+				countWolf.setText(String.valueOf(Wolf.getCountWolf()));
+				countHare.setText(String.valueOf(Hare.getCountHare()));
+				// отрисовка объектов
+				canvas.drawBackground(gc, 0, 0, canvas.getBounds().width, canvas.getBounds().height);
+				items.draw(canvas);
+				gc.dispose();
 			}
 		});
 		
+		// остановка выполнения
 		buttonStop.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				// активация кнопок
 				buttonStart.setEnabled(true);
 				spinnerCountHare.setEnabled(true);
 				spinnerCountWolf.setEnabled(true);
 				spinnerVisionHare.setEnabled(true);
 				spinnerVisionWolf.setEnabled(true);
+				// очистка карты
 				GC gc = new GC(canvas);
 				canvas.drawBackground(gc, 0, 0, canvas.getBounds().width, canvas.getBounds().height);
 				gc.dispose();

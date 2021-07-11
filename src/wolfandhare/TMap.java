@@ -5,8 +5,8 @@ import org.eclipse.swt.widgets.Canvas;
 
 public class TMap {
 	private static TMap Map;
-	private static ArrayList<Item> Items;
-	private static ArrayList<Item> PreviousItems;
+	private static ArrayList<Item> Items;	// список объектов
+	private static ArrayList<Item> PreviousItems;	// список объектов до изменения
 	
 	public TMap() {	}
 	
@@ -16,6 +16,7 @@ public class TMap {
 		return Map;
 	}
 	
+	// создание объектов карты
 	public void setMap(Canvas canvas, int countHare, int countWolf) {
 		if (Items == null && PreviousItems == null) {
 			Items = new ArrayList<Item>();
@@ -27,6 +28,7 @@ public class TMap {
 		}
 		Wolf.clearCount();
 		Hare.clearCount();
+		// заполнение списка
 		Random random = new Random();
 		for(int i = 0; i < countWolf; i++) {
 			Item item = new Wolf();
@@ -40,6 +42,7 @@ public class TMap {
 		}
 	}
 	
+	// копирование списка объектов
 	public static void copy(ArrayList<Item> dest, ArrayList<Item> src) {
 		dest.clear();
 		for (Item item : src) {
@@ -57,33 +60,37 @@ public class TMap {
 		}
 	}
 	
+	// создание нового волка
 	public static void newWolf(int x, int y) {
-		Random random = new Random();
 		Item item = new Wolf();
 		item.setCoordinates(x, y);
 		Items.add(item);
 	}
 	
+	// создание нового зайца
 	public static void newHare(int x, int y) {
-		Random random = new Random();
 		Item item = new Hare();
 		item.setCoordinates(x, y);
 		Items.add(item);
 	}
 	
+	// удаление объекта
 	public static void deleteItem(Item item) {
 		Items.remove(item);
 	}
 	
+	// обработка каждого элемента списка объектов
 	public void  draw(Canvas canvas) {
 		copy(PreviousItems, Items);
 		for(Item item : PreviousItems) {
 			item.draw(canvas);
-			/*if (Items.indexOf(item) != -1)*/ if (Items.contains(item))
+			if (Items.contains(item))
 				Items.get(Items.indexOf(item)).action(canvas);
 		}
 	}
 	
+	// нахождение всех обектов, которые видны переданному объекту item
+	// возвращает список, состоящий из пар <видимый объект, расстояние до него>
 	public static  Map<Item, Double> getVisibleItems(Item item) {
 		Map<Item, Double> visibleItems = new HashMap<Item, Double>();
 		for (Item visible : PreviousItems) {
@@ -92,8 +99,7 @@ public class TMap {
 				if (item.getVision() >= distance)
 					visibleItems.put(visible, distance);
 			}
-		}
-			
+		}			
 		return visibleItems;
 	}
 }
