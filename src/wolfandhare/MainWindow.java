@@ -69,9 +69,9 @@ public class MainWindow {
 		Spinner spinnerCountWolf = new Spinner(shlWolfAndHare, SWT.BORDER);
 		spinnerCountWolf.setBounds(743, 50, 47, 22);
 		
-		Label labelCount = new Label(shlWolfAndHare, SWT.RIGHT);
-		labelCount.setBounds(620, 53, 117, 15);
-		labelCount.setText("\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0432\u043E\u043B\u043A\u043E\u0432:");
+		Label labelCountWolf = new Label(shlWolfAndHare, SWT.RIGHT);
+		labelCountWolf.setBounds(620, 53, 117, 15);
+		labelCountWolf.setText("\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0432\u043E\u043B\u043A\u043E\u0432:");
 		
 		
 		Label labelCurrentCountWolf = new Label(shlWolfAndHare, SWT.NONE);
@@ -84,21 +84,21 @@ public class MainWindow {
 		
 		Label labelVisionHare = new Label(shlWolfAndHare, SWT.NONE);
 		labelVisionHare.setAlignment(SWT.RIGHT);
-		labelVisionHare.setBounds(581, 74, 156, 32);
+		labelVisionHare.setBounds(581, 104, 156, 32);
 		labelVisionHare.setText("\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435 \u0440\u0430\u0441\u0441\u0442\u043E\u044F\u043D\u0438\u0435, \u043D\u0430 \u043A\u043E\u0442\u043E\u0440\u043E\u043C \u0432\u0438\u0434\u044F\u0442 \u0437\u0430\u0439\u0446\u044B:");
 		
 		Label labelVisionWolf = new Label(shlWolfAndHare, SWT.NONE);
 		labelVisionWolf.setText("\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435 \u0440\u0430\u0441\u0441\u0442\u043E\u044F\u043D\u0438\u0435, \u043D\u0430 \u043A\u043E\u0442\u043E\u0440\u043E\u043C \u0432\u0438\u0434\u044F\u0442 \u0432\u043E\u043B\u043A\u0438:");
 		labelVisionWolf.setAlignment(SWT.RIGHT);
-		labelVisionWolf.setBounds(581, 112, 156, 32);
+		labelVisionWolf.setBounds(581, 142, 156, 32);
 		
 		Spinner spinnerVisionHare = new Spinner(shlWolfAndHare, SWT.BORDER);
 		spinnerVisionHare.setMaximum(20);
-		spinnerVisionHare.setBounds(743, 78, 47, 22);
+		spinnerVisionHare.setBounds(743, 108, 47, 22);
 		
 		Spinner spinnerVisionWolf = new Spinner(shlWolfAndHare, SWT.BORDER);
 		spinnerVisionWolf.setMaximum(40);
-		spinnerVisionWolf.setBounds(743, 112, 47, 22);
+		spinnerVisionWolf.setBounds(743, 142, 47, 22);
 		
 		Label countHare = new Label(shlWolfAndHare, SWT.NONE);
 		countHare.setText("0");
@@ -120,6 +120,13 @@ public class MainWindow {
 		buttonStop.setBounds(759, 335, 75, 25);
 		buttonStop.setText("\u041E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u044C");
 		
+		Spinner spinnerCountObstacle = new Spinner(shlWolfAndHare, SWT.BORDER);
+		spinnerCountObstacle.setBounds(743, 78, 47, 22);
+		
+		Label labelCountObstacle = new Label(shlWolfAndHare, SWT.RIGHT);
+		labelCountObstacle.setText("\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u043F\u0440\u0435\u043F\u044F\u0442\u0441\u0442\u0432\u0438\u0439:");
+		labelCountObstacle.setBounds(539, 81, 198, 15);
+		
 		TMap items = new TMap(); // карта всех объектов
 		
 		// непрерывное выполнение
@@ -130,13 +137,14 @@ public class MainWindow {
 			buttonStep.setEnabled(false);
 			spinnerCountHare.setEnabled(false);
 			spinnerCountWolf.setEnabled(false);
+			spinnerCountObstacle.setEnabled(false);
 			spinnerVisionHare.setEnabled(false);
 			spinnerVisionWolf.setEnabled(false);
 			// передача необходимых параметров в классы
 			Hare.setVision(Integer.valueOf(spinnerVisionHare.getText()));
 			Wolf.setVision(Integer.valueOf(spinnerVisionWolf.getText()));
 			// создание объектов карты
-			items.setMap(canvas, Integer.valueOf(spinnerCountHare.getText()), Integer.valueOf(spinnerCountWolf.getText()));
+			items.setMap(canvas, Integer.valueOf(spinnerCountHare.getText()), Integer.valueOf(spinnerCountWolf.getText()), Integer.valueOf(spinnerCountObstacle.getText()));
 			GC gc = new GC(canvas);
 			while (true)
 			{
@@ -148,6 +156,7 @@ public class MainWindow {
 					buttonStep.setEnabled(true);
 					spinnerCountHare.setEnabled(true);
 					spinnerCountWolf.setEnabled(true);
+					spinnerCountObstacle.setEnabled(true);
 					spinnerVisionHare.setEnabled(true);
 					spinnerVisionWolf.setEnabled(true);
 					return;
@@ -169,13 +178,14 @@ public class MainWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (isNewMap) {
-					items.setMap(canvas, Integer.valueOf(spinnerCountHare.getText()), Integer.valueOf(spinnerCountWolf.getText()));
+					items.setMap(canvas, Integer.valueOf(spinnerCountHare.getText()), Integer.valueOf(spinnerCountWolf.getText()), Integer.valueOf(spinnerCountObstacle.getText()));
 					isNewMap = false;
 				}
 				// отключение кнопок на время выполнения
 				buttonStart.setEnabled(false);
 				spinnerCountHare.setEnabled(false);
 				spinnerCountWolf.setEnabled(false);
+				spinnerCountObstacle.setEnabled(false);
 				spinnerVisionHare.setEnabled(false);
 				spinnerVisionWolf.setEnabled(false);
 				// передача необходимых параметров в классы

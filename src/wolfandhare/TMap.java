@@ -10,14 +10,14 @@ public class TMap {
 	
 	public TMap() {	}
 	
-	public static TMap getMap(Canvas canvas, int countHare, int countWolf) {
+	public static TMap getMap() {
 		if (Map == null)
 			Map = new TMap();
 		return Map;
 	}
 	
 	// создание объектов карты
-	public void setMap(Canvas canvas, int countHare, int countWolf) {
+	public void setMap(Canvas canvas, int countHare, int countWolf, int countObstacle) {
 		if (Items == null && PreviousItems == null) {
 			Items = new ArrayList<Item>();
 			PreviousItems = new ArrayList<Item>();
@@ -40,6 +40,11 @@ public class TMap {
 			item.setCoordinates(random.nextInt(canvas.getSize().x - 6) + 3, random.nextInt(canvas.getSize().y - 6) + 3);
 			Items.add(item);
 		}
+		for(int i = 0; i < countObstacle; i++) {
+			Item item = new Obstacle();
+			item.setCoordinates(random.nextInt(canvas.getSize().x), random.nextInt(canvas.getSize().y));
+			Items.add(item);
+		}
 	}
 	
 	// копирование списка объектов
@@ -54,6 +59,11 @@ public class TMap {
 			}
 			if (item instanceof Hare) {
 				copyItem = new Hare(item);
+				dest.add(copyItem);
+				continue;
+			}
+			if (item instanceof Obstacle) {
+				copyItem = new Obstacle(item);
 				dest.add(copyItem);
 				continue;
 			}

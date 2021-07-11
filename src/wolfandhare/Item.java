@@ -44,4 +44,7 @@ public class Item {
 	
 	// получить скорость объекта
 	public Point getSpeed() { return null; }
+	
+	// получить размер объекта
+	public int getSize() { return -1;}
 }
