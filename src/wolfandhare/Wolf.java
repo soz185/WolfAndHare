@@ -10,7 +10,6 @@ public class Wolf extends Item{
 	private static int Vision;	// максимальное рассто€ние, на котором объект видит другие объекты
 	private int Age;	// возраст
 	private Point Speed;	// скорость
-	private static int CountWolf = 0;	// количество живых волков
 	
 	public Wolf() {
 		super();
@@ -19,7 +18,6 @@ public class Wolf extends Item{
 		Coordinates.y = 0;
 		Hunger = 500;
 		Age = random.nextInt(100);
-		CountWolf++;
 		Speed = new Point(random.nextInt(4) - 2, random.nextInt(4) - 2);
 	}
 	
@@ -71,19 +69,18 @@ public class Wolf extends Item{
 	// действие волка
 	public void action(Canvas canvas) {
 		// удаление умершего от старости или голода волка
-		if (Hunger == 0 || Age > 700)
+		if (Hunger == 0 || Age > 5000)
 			{
 				TMap.deleteItem(this);
-				CountWolf--;
 				return;
 			}
 		Random random = new Random();
-		double minDistance = canvas.getSize().x;
+		double minDistance = Double.MAX_VALUE;
 		// обход всех видимых волку объектов
 		for (Map.Entry<Item, Double> item : TMap.getVisibleItems(this).entrySet()) {
 			// если объект волк
 			if (item.getKey() instanceof Wolf) {
-				if (item.getValue() < 1.0 && item.getKey().getAge() > 100 && this.Age > 100) {
+				if (item.getValue() <= 1.0 && item.getKey().getAge() > 300 && this.Age > 300) {
 					// рождение нового волка
 					TMap.newWolf(this.Coordinates.x, this.Coordinates.y);
 					Speed.x = -Speed.x;
@@ -93,11 +90,11 @@ public class Wolf extends Item{
 			}
 			// если объект за€ц
 			if (item.getKey() instanceof Hare) {
-				if (item.getValue() < 1.5 && Hunger > 490) {
+				if (item.getValue() <= 1.5 && Hunger < 490 && item.getKey().getAlive()) {
 					// поедание зайца
+					item.getKey().deleteHare();
 					TMap.deleteItem(item.getKey());
-					Hare.reduceCount();
-					Hunger += 30;
+					Hunger = 500;
 					Speed.x = random.nextInt(4) - 2;
 					Speed.y = random.nextInt(4) - 2;
 					break;
@@ -109,30 +106,47 @@ public class Wolf extends Item{
 					// изменение координаты x
 					if (minDistance > item.getValue()) {
 						if (this.Coordinates.x > item.getKey().Coordinates.x) {
-							if (Speed.x > 0)
+							if (Speed.x >= 0)
 								Speed.x = -Speed.x;
 						}	
 						else
 							if (this.Coordinates.x < item.getKey().Coordinates.x) {
-								if (Speed.x < 0)
+								if (Speed.x <= 0)
 									Speed.x = -Speed.x;
 							}
 							else
 								Speed.x = 0;				
 						// изменение координаты y
 						if (this.Coordinates.y > item.getKey().Coordinates.y) {
-							if (Speed.y > 0)
+							if (Speed.y >= 0)
 								Speed.y = -Speed.y;
 						}
 						else
 							if (this.Coordinates.y < item.getKey().Coordinates.y) {
-								if (Speed.y < 0)
+								if (Speed.y <= 0)
 									Speed.y = -Speed.y;
 							}
 							else
 								Speed.y = 0;
 					}
 					minDistance = item.getValue();
+				}
+			}
+			if (item.getKey() instanceof Obstacle) {
+				if ((Coordinates.x + Speed.x >= item.getKey().Coordinates.x - item.getKey().getSize() / 2 - 5)
+						&& (Coordinates.x + Speed.x <= item.getKey().Coordinates.x + item.getKey().getSize() / 2 + 5)
+						&& (Coordinates.y + Speed.y >= item.getKey().Coordinates.y + item.getKey().getSize() / 2 - 5)
+						&& (Coordinates.y + Speed.y <= item.getKey().Coordinates.y + item.getKey().getSize() / 2 + 5)) {
+					if (Coordinates.x >= item.getKey().Coordinates.x + item.getKey().getSize() / 2 
+							|| item.getKey().Coordinates.x >= Coordinates.x) {
+						Speed.y = 0;
+						break;
+					}
+					if (Coordinates.y > item.getKey().Coordinates.y + item.getKey().getSize() / 2
+							|| item.getKey().Coordinates.y > Coordinates.y) {
+						Speed.x = 0;
+						break;
+					}
 				}
 			}
 		}
@@ -148,11 +162,6 @@ public class Wolf extends Item{
 	// установить максимальное рассто€ние, на котором объект видит другие объекты
 	public static void setVision(int vision) {
 		Vision = vision;
-	}
-	
-	// обнулить количество объектов
-	public static void clearCount() {
-		CountWolf = 0;
 	}
 	
 	// получить максимальное рассто€ние, на котором объект видит другие объекты
@@ -173,10 +182,5 @@ public class Wolf extends Item{
 	// получить скорость
 	public Point getSpeed() {
 		return Speed;
-	}
-	
-	// получить количество волков
-	public static int getCountWolf() {
-		return CountWolf;
 	}
 }

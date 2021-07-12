@@ -8,7 +8,7 @@ public class TMap {
 	private static ArrayList<Item> Items;	// список объектов
 	private static ArrayList<Item> PreviousItems;	// список объектов до изменения
 	
-	public TMap() {	}
+	private TMap() {	}
 	
 	public static TMap getMap() {
 		if (Map == null)
@@ -26,8 +26,6 @@ public class TMap {
 			Items.clear();
 			PreviousItems.clear();
 		}
-		Wolf.clearCount();
-		Hare.clearCount();
 		// заполнение списка
 		Random random = new Random();
 		for(int i = 0; i < countWolf; i++) {
@@ -87,6 +85,8 @@ public class TMap {
 	// удаление объекта
 	public static void deleteItem(Item item) {
 		Items.remove(item);
+		if (item instanceof Hare)
+			PreviousItems.get(PreviousItems.indexOf(item)).deleteHare();
 	}
 	
 	// обработка каждого элемента списка объектов
@@ -111,5 +111,23 @@ public class TMap {
 			}
 		}			
 		return visibleItems;
+	}
+	
+	// текущее количество волков
+	public int getCountWolf() {
+		int count = 0;
+		for (Item item : Items) 
+			if (item instanceof Wolf)
+				count++;
+		return count;
+	}
+	
+	// текущее количество зайцев
+	public int getCountHare() {
+		int count = 0;
+		for (Item item : Items) 
+			if (item instanceof Hare)
+				count++;
+		return count;
 	}
 }

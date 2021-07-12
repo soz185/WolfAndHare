@@ -47,4 +47,10 @@ public class Item {
 	
 	// получить размер объекта
 	public int getSize() { return -1;}
+	
+	// жив или нет
+	public boolean getAlive() { return false;}
+	
+	// за€ц мертв
+	public void deleteHare() { }
 }

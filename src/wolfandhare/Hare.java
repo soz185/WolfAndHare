@@ -6,10 +6,10 @@ import org.eclipse.swt.graphics.*;
 
 public class Hare extends Item{
 
-	private static int CountHare = 0;	// количестов зайцев
 	private static int Vision;	// максимальное рассто€ние, на котором объект видит другие объекты
 	private int Age;	// возраст
 	private Point Speed;	// скорость
+	private boolean isAlive;
 	
 	public Hare() {
 		super();
@@ -18,13 +18,14 @@ public class Hare extends Item{
 		Coordinates.y = 0;
 		Age = random.nextInt(30);
 		Speed = new Point(random.nextInt(4) - 2, random.nextInt(4) - 2);
-		CountHare++;
+		isAlive = true;
 	}
 	
 	public Hare(Item src) {
 		super(src);
 		Age = src.getAge();
 		Speed = new Point(src.getSpeed().x, src.getSpeed().y);
+		isAlive = true;
 	}
 	
 	// сравнение объектов
@@ -67,46 +68,50 @@ public class Hare extends Item{
 	// действие зайца
 	public void action(Canvas canvas) {
 		// удаление старого зайца
-		if (Age > 300)
+		if (Age > 1000)
 			{
+				isAlive = false;
 				TMap.deleteItem(this);
-				CountHare--;
 				return;
 			}
 		Random random = new Random();
-		double minDistance = canvas.getSize().x;
+		double minDistance = Double.MAX_VALUE;
 		// обход списка всех видимых объектов
 		for (Map.Entry<Item, Double> item : TMap.getVisibleItems(this).entrySet()) {
 			// если объект за€ц
 			if (item.getKey() instanceof Hare)
-				if (item.getValue() <= 1.0 && item.getKey().getAge() > 50 && this.Age > 50) {
-					// создание нового зайца
-					TMap.newHare(this.Coordinates.x, this.Coordinates.y);
-					Speed.x = -Speed.x;
-					Speed.y = -Speed.y;
+				if (item.getValue() < 1.0 && item.getKey().getAge() > 100 && this.Age > 100) {
+					if (item.getKey().getSpeed().x != 0 && item.getKey().getSpeed().y != 0
+							&& Speed.x != 0 && Speed.y != 0) {
+						// создание нового зайца
+						TMap.newHare(this.Coordinates.x, this.Coordinates.y);
+						Speed.x = -Speed.x;
+						Speed.y = -Speed.y;
+						break;
+					}
 				}
 			// если объект волк
-			if (item instanceof Wolf) {
+			if (item.getKey() instanceof Wolf) {
 				if (minDistance > item.getValue()) {
 					if (this.Coordinates.x < item.getKey().Coordinates.x) {
-						if (Speed.x > 0)
+						if (Speed.x >= 0)
 							Speed.x = -Speed.x;
 					}	
 					else
 						if (this.Coordinates.x > item.getKey().Coordinates.x) {
-							if (Speed.x < 0)
+							if (Speed.x <= 0)
 								Speed.x = -Speed.x;
 						}
 						else
 							Speed.x = 0;				
 					// изменение координаты y
 					if (this.Coordinates.y < item.getKey().Coordinates.y) {
-						if (Speed.y > 0)
+						if (Speed.y >= 0)
 							Speed.y = -Speed.y;
 					}
 					else
 						if (this.Coordinates.y > item.getKey().Coordinates.y) {
-							if (Speed.y < 0)
+							if (Speed.y <= 0)
 								Speed.y = -Speed.y;
 						}
 						else
@@ -123,19 +128,14 @@ public class Hare extends Item{
 			Speed.y = random.nextInt(4) - 2;
 	}
 	
-	// обнуление количества зайцев
-	public static void clearCount() {
-		CountHare = 0;
-	}
-	
-	// уменьшение количества зайцев
-	public static void reduceCount() {
-		CountHare--;
-	}
-	
 	// установить максимальное рассто€ние, на котором объект видит другие объекты
 	public static void setVision(int vision) {
 		Vision = vision;
+	}
+	
+	// за€ц мертв
+	public void deleteHare() {
+		isAlive = false;;
 	}
 	
 	// получить максимальное рассто€ние, на котором объект видит другие объекты
@@ -153,8 +153,8 @@ public class Hare extends Item{
 		return Speed;
 	}
 	
-	// получить количество зайцев
-	public static int getCountHare() {
-		return CountHare;
+	// ∆ив за€ц или нет
+	public boolean getAlive() {
+		return isAlive;
 	}
 }
