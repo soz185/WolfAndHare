@@ -17,7 +17,7 @@ public class Wolf extends Item{
 		Coordinates.x = 0;
 		Coordinates.y = 0;
 		Hunger = 500;
-		Age = random.nextInt(100);
+		Age = random.nextInt(70);
 		Speed = new Point(random.nextInt(4) - 2, random.nextInt(4) - 2);
 	}
 	
@@ -48,7 +48,7 @@ public class Wolf extends Item{
 	// отрисовка волка
 	public void draw(Canvas canvas) { 
 		GC graphic = new GC(canvas);
-		if (Age > 70)
+		if (Age > 300)
 			graphic.setBackground(new Color(canvas.getDisplay(), 210, 0, 0));	// взрослый волк - красный
 		else
 			graphic.setBackground(new Color(canvas.getDisplay(), 255, 138, 138));	// молодой волк - розовый
@@ -75,7 +75,9 @@ public class Wolf extends Item{
 				return;
 			}
 		Random random = new Random();
-		double minDistance = Double.MAX_VALUE;
+		double minDistanceHare = Double.MAX_VALUE;
+		double minDistanceObstacle = Double.MAX_VALUE;
+		boolean obstacle = false;
 		// обход всех видимых волку объектов
 		for (Map.Entry<Item, Double> item : TMap.getVisibleItems(this).entrySet()) {
 			// если объект волк
@@ -104,7 +106,7 @@ public class Wolf extends Item{
 				// 
 				else {
 					// изменение координаты x
-					if (minDistance > item.getValue()) {
+					if (minDistanceHare > item.getValue() && !obstacle) {
 						if (this.Coordinates.x > item.getKey().Coordinates.x) {
 							if (Speed.x >= 0)
 								Speed.x = -Speed.x;
@@ -128,25 +130,39 @@ public class Wolf extends Item{
 							}
 							else
 								Speed.y = 0;
+						minDistanceHare = item.getValue();
 					}
-					minDistance = item.getValue();
 				}
 			}
 			if (item.getKey() instanceof Obstacle) {
-				if ((Coordinates.x + Speed.x >= item.getKey().Coordinates.x - item.getKey().getSize() / 2 - 5)
-						&& (Coordinates.x + Speed.x <= item.getKey().Coordinates.x + item.getKey().getSize() / 2 + 5)
-						&& (Coordinates.y + Speed.y >= item.getKey().Coordinates.y + item.getKey().getSize() / 2 - 5)
-						&& (Coordinates.y + Speed.y <= item.getKey().Coordinates.y + item.getKey().getSize() / 2 + 5)) {
-					if (Coordinates.x >= item.getKey().Coordinates.x + item.getKey().getSize() / 2 
-							|| item.getKey().Coordinates.x >= Coordinates.x) {
-						Speed.y = 0;
-						break;
+				obstacle = true;
+				if (minDistanceObstacle > item.getValue()) {
+					if ((Coordinates.x + Speed.x >= item.getKey().Coordinates.x - item.getKey().getSize() / 2 - 10	)
+							&& (Coordinates.x + Speed.x <= item.getKey().Coordinates.x + item.getKey().getSize() / 2 + 10)
+							&& (Coordinates.y + Speed.y >= item.getKey().Coordinates.y - item.getKey().getSize() / 2 - 10)
+							&& (Coordinates.y + Speed.y <= item.getKey().Coordinates.y + item.getKey().getSize() / 2 + 10)) {
+						if (Coordinates.x > item.getKey().Coordinates.x + item.getKey().getSize() / 2 
+								|| item.getKey().Coordinates.x > Coordinates.x + item.getKey().getSize() / 2) {
+							Speed.x = 0;
+							break;
+						}
+						if (Coordinates.y == item.getKey().Coordinates.y + item.getKey().getSize() / 2
+								|| item.getKey().Coordinates.y == Coordinates.y + item.getKey().getSize() / 2) {
+							Speed.x = 0;
+							break;
+						}
+						if (Coordinates.y > item.getKey().Coordinates.y + item.getKey().getSize() / 2
+								|| item.getKey().Coordinates.y > Coordinates.y + item.getKey().getSize() / 2) {
+							Speed.y = 0;
+							break;
+						}
+						if (Coordinates.x == item.getKey().Coordinates.x + item.getKey().getSize() / 2 
+								|| item.getKey().Coordinates.x == Coordinates.x + item.getKey().getSize() / 2) {
+							Speed.y = 0;
+							break;
+						}
 					}
-					if (Coordinates.y > item.getKey().Coordinates.y + item.getKey().getSize() / 2
-							|| item.getKey().Coordinates.y > Coordinates.y) {
-						Speed.x = 0;
-						break;
-					}
+					minDistanceObstacle = item.getValue();
 				}
 			}
 		}

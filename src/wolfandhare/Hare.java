@@ -47,7 +47,7 @@ public class Hare extends Item{
 	// отрисовка зайца
 	public void draw(Canvas canvas) { 
 		GC graphic = new GC(canvas);
-		if (Age > 30)
+		if (Age > 100)
 			graphic.setBackground(new Color(canvas.getDisplay(), 90, 90, 90)); // взрослый за€ц - темно-серый
 		else
 			graphic.setBackground(new Color(canvas.getDisplay(), 180, 180, 180));	// молодой за€ц - серый
@@ -85,6 +85,7 @@ public class Hare extends Item{
 							&& Speed.x != 0 && Speed.y != 0) {
 						// создание нового зайца
 						TMap.newHare(this.Coordinates.x, this.Coordinates.y);
+						TMap.newHare(this.Coordinates.x, this.Coordinates.y);
 						Speed.x = -Speed.x;
 						Speed.y = -Speed.y;
 						break;
@@ -118,7 +119,7 @@ public class Hare extends Item{
 							Speed.y = 0;
 				}
 				minDistance = item.getValue();
-			}				
+			}
 		}
 		Age++;
 		move(canvas);

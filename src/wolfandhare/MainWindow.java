@@ -51,8 +51,8 @@ public class MainWindow {
 	 */
 	protected void createContents() {
 		shlWolfAndHare = new Shell();
-		shlWolfAndHare.setMinimumSize(new Point(900, 500));
-		shlWolfAndHare.setSize(900, 500);
+		shlWolfAndHare.setMinimumSize(new Point(840, 450));
+		shlWolfAndHare.setSize(840, 450);
 		shlWolfAndHare.setText("Wolf and Hare");
 		
 		Canvas canvas = new Canvas(shlWolfAndHare, SWT.NONE | SWT.DOUBLE_BUFFERED);
@@ -60,22 +60,23 @@ public class MainWindow {
 		canvas.setBounds(10, 10, 500, 350);
 		
 		Label labelCountHares = new Label(shlWolfAndHare, SWT.RIGHT);
-		labelCountHares.setBounds(620, 25, 117, 15);
+		labelCountHares.setBounds(578, 26, 117, 15);
 		labelCountHares.setText("\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0437\u0430\u0439\u0446\u0435\u0432:");
 		
 		Spinner spinnerCountHare = new Spinner(shlWolfAndHare, SWT.BORDER);
 		spinnerCountHare.setMaximum(50);
-		spinnerCountHare.setBounds(743, 22, 47, 22);
+		spinnerCountHare.setBounds(701, 23, 47, 22);
 		
 		Spinner spinnerCountWolf = new Spinner(shlWolfAndHare, SWT.BORDER);
 		spinnerCountWolf.setMaximum(35);
-		spinnerCountWolf.setBounds(743, 50, 47, 22);
+		spinnerCountWolf.setBounds(701, 51, 47, 22);
 		
 		Spinner spinnerCountObstacle = new Spinner(shlWolfAndHare, SWT.BORDER);
-		spinnerCountObstacle.setBounds(743, 78, 47, 22);
+		spinnerCountObstacle.setMaximum(50);
+		spinnerCountObstacle.setBounds(701, 79, 47, 22);
 		
 		Label labelCountWolf = new Label(shlWolfAndHare, SWT.RIGHT);
-		labelCountWolf.setBounds(620, 53, 117, 15);
+		labelCountWolf.setBounds(578, 54, 117, 15);
 		labelCountWolf.setText("\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0432\u043E\u043B\u043A\u043E\u0432:");
 		
 		
@@ -89,23 +90,23 @@ public class MainWindow {
 		
 		Label labelVisionHare = new Label(shlWolfAndHare, SWT.NONE);
 		labelVisionHare.setAlignment(SWT.RIGHT);
-		labelVisionHare.setBounds(581, 104, 156, 32);
+		labelVisionHare.setBounds(539, 105, 156, 32);
 		labelVisionHare.setText("\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435 \u0440\u0430\u0441\u0441\u0442\u043E\u044F\u043D\u0438\u0435, \u043D\u0430 \u043A\u043E\u0442\u043E\u0440\u043E\u043C \u0432\u0438\u0434\u044F\u0442 \u0437\u0430\u0439\u0446\u044B:");
 		
 		Label labelVisionWolf = new Label(shlWolfAndHare, SWT.NONE);
 		labelVisionWolf.setText("\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435 \u0440\u0430\u0441\u0441\u0442\u043E\u044F\u043D\u0438\u0435, \u043D\u0430 \u043A\u043E\u0442\u043E\u0440\u043E\u043C \u0432\u0438\u0434\u044F\u0442 \u0432\u043E\u043B\u043A\u0438:");
 		labelVisionWolf.setAlignment(SWT.RIGHT);
-		labelVisionWolf.setBounds(581, 142, 156, 32);
+		labelVisionWolf.setBounds(539, 143, 156, 32);
 		
 		Spinner spinnerVisionHare = new Spinner(shlWolfAndHare, SWT.BORDER);
 		spinnerVisionHare.setMaximum(40);
 		spinnerVisionHare.setMinimum(5);
-		spinnerVisionHare.setBounds(743, 108, 47, 22);
+		spinnerVisionHare.setBounds(701, 109, 47, 22);
 		
 		Spinner spinnerVisionWolf = new Spinner(shlWolfAndHare, SWT.BORDER);
 		spinnerVisionWolf.setMaximum(60);
 		spinnerVisionWolf.setMinimum(5);
-		spinnerVisionWolf.setBounds(743, 142, 47, 22);
+		spinnerVisionWolf.setBounds(701, 143, 47, 22);
 		
 		Label currentCountHare = new Label(shlWolfAndHare, SWT.NONE);
 		currentCountHare.setText("0");
@@ -116,20 +117,20 @@ public class MainWindow {
 		currentCountWolf.setBounds(133, 387, 55, 15);
 		
 		Button buttonStart = new Button(shlWolfAndHare, SWT.NONE);
-		buttonStart.setBounds(563, 335, 75, 25);
+		buttonStart.setBounds(539, 335, 75, 25);
 		buttonStart.setText("\u0421\u0442\u0430\u0440\u0442");
 		
 		Button buttonStep = new Button(shlWolfAndHare, SWT.NONE);
-		buttonStep.setBounds(661, 335, 75, 25);
+		buttonStep.setBounds(637, 335, 75, 25);
 		buttonStep.setText("\u0428\u0430\u0433");
 		
 		Button buttonStop = new Button(shlWolfAndHare, SWT.NONE);
-		buttonStop.setBounds(759, 335, 75, 25);
+		buttonStop.setBounds(735, 335, 75, 25);
 		buttonStop.setText("\u041E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u044C");
 		
 		Label labelCountObstacle = new Label(shlWolfAndHare, SWT.RIGHT);
 		labelCountObstacle.setText("\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u043F\u0440\u0435\u043F\u044F\u0442\u0441\u0442\u0432\u0438\u0439:");
-		labelCountObstacle.setBounds(539, 81, 198, 15);
+		labelCountObstacle.setBounds(510, 82, 185, 15);
 		
 		// непрерывное выполнение
 		buttonStart.addSelectionListener(new SelectionAdapter() {

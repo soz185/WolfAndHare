@@ -13,7 +13,7 @@ public class Obstacle extends Item{
 		Random random = new Random();
 		Coordinates.x = 0;
 		Coordinates.y = 0;
-		Size = random.nextInt(5) + 10;
+		Size = random.nextInt(10) + 10;
 		CountObstacle++;
 	}
 	

@@ -28,6 +28,11 @@ public class TMap {
 		}
 		// заполнение списка
 		Random random = new Random();
+		for(int i = 0; i < countObstacle; i++) {
+			Item item = new Obstacle();
+			item.setCoordinates(random.nextInt(canvas.getSize().x), random.nextInt(canvas.getSize().y));
+			Items.add(item);
+		}
 		for(int i = 0; i < countWolf; i++) {
 			Item item = new Wolf();
 			item.setCoordinates(random.nextInt(canvas.getSize().x - 6) + 3, random.nextInt(canvas.getSize().y - 6) + 3);
@@ -36,11 +41,6 @@ public class TMap {
 		for(int i = 0; i < countHare; i++) {
 			Item item = new Hare();
 			item.setCoordinates(random.nextInt(canvas.getSize().x - 6) + 3, random.nextInt(canvas.getSize().y - 6) + 3);
-			Items.add(item);
-		}
-		for(int i = 0; i < countObstacle; i++) {
-			Item item = new Obstacle();
-			item.setCoordinates(random.nextInt(canvas.getSize().x), random.nextInt(canvas.getSize().y));
 			Items.add(item);
 		}
 	}
@@ -99,14 +99,14 @@ public class TMap {
 		}
 	}
 	
-	// нахождение всех обектов, которые видны переданному объекту item
+	// нахождение всех объектов, которые видны переданному объекту item
 	// возвращает список, состоящий из пар <видимый объект, расстояние до него>
 	public static  Map<Item, Double> getVisibleItems(Item item) {
 		Map<Item, Double> visibleItems = new HashMap<Item, Double>();
 		for (Item visible : PreviousItems) {
 			if (!visible.equals(item)) {
 				double distance = Math.pow((visible.Coordinates.x - item.Coordinates.x) * (visible.Coordinates.x - item.Coordinates.x) + (visible.Coordinates.y - item.Coordinates.y) * (visible.Coordinates.y - item.Coordinates.y), 1.0 / 2);
-				if (item.getVision() >= distance)
+				if (item.getVision() >= distance) 
 					visibleItems.put(visible, distance);
 			}
 		}			
