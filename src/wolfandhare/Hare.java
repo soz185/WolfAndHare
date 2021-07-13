@@ -9,7 +9,6 @@ public class Hare extends Item{
 	private static int Vision;	// максимальное рассто€ние, на котором объект видит другие объекты
 	private int Age;	// возраст
 	private Point Speed;	// скорость
-	private boolean isAlive;
 	
 	public Hare() {
 		super();
@@ -18,14 +17,12 @@ public class Hare extends Item{
 		Coordinates.y = 0;
 		Age = random.nextInt(30);
 		Speed = new Point(random.nextInt(4) - 2, random.nextInt(4) - 2);
-		isAlive = true;
 	}
 	
 	public Hare(Item src) {
 		super(src);
 		Age = src.getAge();
 		Speed = new Point(src.getSpeed().x, src.getSpeed().y);
-		isAlive = true;
 	}
 	
 	// сравнение объектов
@@ -70,7 +67,6 @@ public class Hare extends Item{
 		// удаление старого зайца
 		if (Age > 1000)
 			{
-				isAlive = false;
 				TMap.deleteItem(this);
 				return;
 			}
@@ -134,11 +130,6 @@ public class Hare extends Item{
 		Vision = vision;
 	}
 	
-	// за€ц мертв
-	public void deleteHare() {
-		isAlive = false;;
-	}
-	
 	// получить максимальное рассто€ние, на котором объект видит другие объекты
 	public int getVision() {
 		return Vision;
@@ -152,10 +143,5 @@ public class Hare extends Item{
 	// получить скорость
 	public Point getSpeed() {
 		return Speed;
-	}
-	
-	// ∆ив за€ц или нет
-	public boolean getAlive() {
-		return isAlive;
 	}
 }

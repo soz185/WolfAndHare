@@ -92,9 +92,8 @@ public class Wolf extends Item{
 			}
 			// если объект заяц
 			if (item.getKey() instanceof Hare) {
-				if (item.getValue() <= 1.5 && Hunger < 490 && item.getKey().getAlive()) {
+				if (item.getValue() <= 1.5 && Hunger < 490) {
 					// поедание зайца
-					item.getKey().deleteHare();
 					TMap.deleteItem(item.getKey());
 					Hunger = 500;
 					Speed.x = random.nextInt(4) - 2;

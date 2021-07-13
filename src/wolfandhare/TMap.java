@@ -85,8 +85,6 @@ public class TMap {
 	// удаление объекта
 	public static void deleteItem(Item item) {
 		Items.remove(item);
-		if (item instanceof Hare)
-			PreviousItems.get(PreviousItems.indexOf(item)).deleteHare();
 	}
 	
 	// обработка каждого элемента списка объектов

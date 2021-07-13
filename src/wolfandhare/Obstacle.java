@@ -5,7 +5,7 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.graphics.*;
 
 public class Obstacle extends Item{
-	private static int CountObstacle = 0;	// количество препятствий
+	
 	private int Size;	// размер
 	
 	public Obstacle() {
@@ -14,7 +14,6 @@ public class Obstacle extends Item{
 		Coordinates.x = 0;
 		Coordinates.y = 0;
 		Size = random.nextInt(10) + 10;
-		CountObstacle++;
 	}
 	
 	public Obstacle(Item src) {
@@ -45,18 +44,8 @@ public class Obstacle extends Item{
 		graphic.dispose();
 	}
 	
-	// обнуление количества препятствий
-	public static void clearCount() {
-		CountObstacle = 0;
-	}
-	
 	// получить размер
 	public int getSize() {
 		return Size;
-	}
-	
-	// получить количество препятствий
-	public static int getCountObstacle() {
-		return CountObstacle;
 	}
 }

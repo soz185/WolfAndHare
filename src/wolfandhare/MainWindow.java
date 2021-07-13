@@ -116,67 +116,37 @@ public class MainWindow {
 		currentCountWolf.setText("0");
 		currentCountWolf.setBounds(133, 387, 55, 15);
 		
-		Button buttonStart = new Button(shlWolfAndHare, SWT.NONE);
-		buttonStart.setBounds(539, 335, 75, 25);
-		buttonStart.setText("\u0421\u0442\u0430\u0440\u0442");
-		
 		Button buttonStep = new Button(shlWolfAndHare, SWT.NONE);
-		buttonStep.setBounds(637, 335, 75, 25);
+		buttonStep.setBounds(578, 335, 75, 25);
 		buttonStep.setText("\u0428\u0430\u0433");
 		
 		Button buttonStop = new Button(shlWolfAndHare, SWT.NONE);
-		buttonStop.setBounds(735, 335, 75, 25);
+		buttonStop.setBounds(676, 335, 75, 25);
 		buttonStop.setText("\u041E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u044C");
 		
 		Label labelCountObstacle = new Label(shlWolfAndHare, SWT.RIGHT);
 		labelCountObstacle.setText("\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u043F\u0440\u0435\u043F\u044F\u0442\u0441\u0442\u0432\u0438\u0439:");
 		labelCountObstacle.setBounds(510, 82, 185, 15);
 		
-		// непрерывное выполнение
-		buttonStart.addSelectionListener(new SelectionAdapter() {
-		@Override
-		public void widgetSelected(SelectionEvent e) {
-			// отключение кнопок на время выполнения
-			buttonStep.setEnabled(false);
-			spinnerCountHare.setEnabled(false);
-			spinnerCountWolf.setEnabled(false);
-			spinnerCountObstacle.setEnabled(false);
-			spinnerVisionHare.setEnabled(false);
-			spinnerVisionWolf.setEnabled(false);
-			// передача необходимых параметров в классы
-			Hare.setVision(Integer.valueOf(spinnerVisionHare.getText()));
-			Wolf.setVision(Integer.valueOf(spinnerVisionWolf.getText()));
-			// создание объектов карты
-			TMap.getMap().setMap(canvas, Integer.valueOf(spinnerCountHare.getText()), Integer.valueOf(spinnerCountWolf.getText()), Integer.valueOf(spinnerCountObstacle.getText()));
-			GC gc = new GC(canvas);
-			while (true)
-			{
-				// вывод текущего количества объектов
-				int countWolf = TMap.getMap().getCountWolf();
-				int countHare = TMap.getMap().getCountHare();
-				currentCountWolf.setText(String.valueOf(countWolf));
-				currentCountHare.setText(String.valueOf(countHare));
-				if (countWolf == 0 || countHare == 0 || countWolf > 500 || countHare > 500) {
-					gc.dispose();
-					buttonStep.setEnabled(true);
-					spinnerCountHare.setEnabled(true);
-					spinnerCountWolf.setEnabled(true);
-					spinnerCountObstacle.setEnabled(true);
-					spinnerVisionHare.setEnabled(true);
-					spinnerVisionWolf.setEnabled(true);
-					return;
-				}
-				// отрисовка объектов
-				canvas.drawBackground(gc, 0, 0, canvas.getBounds().width, canvas.getBounds().height);
-				TMap.getMap().draw(canvas);
-				try {
-					Thread.sleep(30);
-				} catch (InterruptedException ie) {
-					ie.printStackTrace();
-				}
-			}
-		}
-	});
+		Label lblNewLabel = new Label(shlWolfAndHare, SWT.NONE);
+		lblNewLabel.setBounds(754, 26, 55, 15);
+		lblNewLabel.setText("(\u043C\u0430\u043A\u0441. 50)");
+		
+		Label lblNewLabel_1 = new Label(shlWolfAndHare, SWT.NONE);
+		lblNewLabel_1.setText("(\u043C\u0430\u043A\u0441. 35)");
+		lblNewLabel_1.setBounds(754, 54, 55, 15);
+		
+		Label lblNewLabel_2 = new Label(shlWolfAndHare, SWT.NONE);
+		lblNewLabel_2.setText("(\u043C\u0430\u043A\u0441. 50)");
+		lblNewLabel_2.setBounds(754, 82, 55, 15);
+		
+		Label lblNewLabel_3 = new Label(shlWolfAndHare, SWT.NONE);
+		lblNewLabel_3.setText("(\u043C\u0430\u043A\u0441. 40)");
+		lblNewLabel_3.setBounds(754, 110, 55, 15);
+		
+		Label lblNewLabel_4 = new Label(shlWolfAndHare, SWT.NONE);
+		lblNewLabel_4.setText("(\u043C\u0430\u043A\u0441. 60)");
+		lblNewLabel_4.setBounds(754, 146, 55, 15);
 		
 		// пошаговое выполнение
 		buttonStep.addSelectionListener(new SelectionAdapter() {
@@ -190,7 +160,6 @@ public class MainWindow {
 					isNewMap = false;
 				}
 				// отключение кнопок на время выполнения
-				buttonStart.setEnabled(false);
 				spinnerCountHare.setEnabled(false);
 				spinnerCountWolf.setEnabled(false);
 				spinnerCountObstacle.setEnabled(false);
@@ -212,7 +181,6 @@ public class MainWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// активация кнопок
-				buttonStart.setEnabled(true);
 				spinnerCountHare.setEnabled(true);
 				spinnerCountWolf.setEnabled(true);
 				spinnerCountObstacle.setEnabled(true);
