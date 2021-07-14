@@ -93,12 +93,12 @@ public class MainWindow {
 		labelCurrentCountHare.setText("\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0437\u0430\u0439\u0446\u0435\u0432: ");
 		
 		Label labelVisionHare = new Label(shlWolfAndHare, SWT.NONE);
-		labelVisionHare.setBounds(449, 112, 203, 76);
+		labelVisionHare.setBounds(449, 112, 203, 35);
 		labelVisionHare.setAlignment(SWT.RIGHT);
 		labelVisionHare.setText("\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435 \u0440\u0430\u0441\u0441\u0442\u043E\u044F\u043D\u0438\u0435, \u043D\u0430 \u043A\u043E\u0442\u043E\u0440\u043E\u043C \u0432\u0438\u0434\u044F\u0442 \u0437\u0430\u0439\u0446\u044B:");
 		
 		Label labelVisionWolf = new Label(shlWolfAndHare, SWT.NONE);
-		labelVisionWolf.setBounds(449, 152, 203, 70);
+		labelVisionWolf.setBounds(449, 152, 203, 35);
 		labelVisionWolf.setText("\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435 \u0440\u0430\u0441\u0441\u0442\u043E\u044F\u043D\u0438\u0435, \u043D\u0430 \u043A\u043E\u0442\u043E\u0440\u043E\u043C \u0432\u0438\u0434\u044F\u0442 \u0432\u043E\u043B\u043A\u0438:");
 		labelVisionWolf.setAlignment(SWT.RIGHT);
 		
